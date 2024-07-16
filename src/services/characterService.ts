@@ -1,6 +1,7 @@
 // src/services/characterService.ts
 
 import axios from 'axios';
+import logger from '../../logger';
 
 const RICK_AND_MORTY_API_URL = 'https://rickandmortyapi.com/graphql';
 
@@ -52,6 +53,7 @@ export const getCharacters = async (
     }
     return characters;
   } catch (error) {
+    logger.error(`Failed to fetch characters: ${error}`);
     throw new Error('Failed to fetch characters from RickAndMorty API');
   }
 };
@@ -76,6 +78,7 @@ export const getCharacterById = async (id: string): Promise<Character> => {
 
     return response.data.data.character;
   } catch (error) {
+    logger.error(`Failed to fetch character with ID ${id}: ${error}`);
     throw new Error('Failed to fetch character from RickAndMorty API');
   }
 };
