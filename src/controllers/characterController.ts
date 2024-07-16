@@ -1,13 +1,19 @@
+// src/controllers/characterController.ts
+
 import { Request, Response } from 'express';
 import { getCharacters, getCharacterById } from '../services/characterService';
 
 export const getCharactersController = async (req: Request, res: Response) => {
-  const { page = 1, pageSize = 20 } = req.query;
   try {
-    const characters = await getCharacters(Number(page), Number(pageSize));
-    res.json(characters);
+    const page = parseInt(req.query.page as string, 10) || 1;
+    const pageSize = parseInt(req.query.pageSize as string, 10) || 20;
+    const sort = (req.query.sort as string) || '';
+
+    const characters = await getCharacters(page, pageSize, sort);
+    res.status(200).json(characters);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch characters' });
+    console.error('Error fetching characters:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
@@ -15,11 +21,12 @@ export const getCharacterByIdController = async (
   req: Request,
   res: Response
 ) => {
-  const { id } = req.params;
   try {
+    const id = req.params.id;
     const character = await getCharacterById(id);
-    res.json(character);
+    res.status(200).json(character);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch character' });
+    console.error('Error fetching character by ID:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };

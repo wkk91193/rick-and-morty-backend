@@ -33,15 +33,10 @@ describe('Character Service', () => {
       },
     });
 
-    const result = await getCharacters(1, 20);
-    expect(result).toEqual([
-        { id: '1', name: 'Rick Sanchez', image: '', status: '', species: '' },
-      ]);
-  });
-  it('should handle errors in fetching characters', async () => {
-     mockedAxios.post.mockRejectedValueOnce(new Error('Network Error'));
-
-     await expect(getCharacters(1, 20)).rejects.toThrow('Network Error');
+    const characters = await getCharacters(1, 20, '');
+    expect(characters.results).toEqual([
+      { id: '1', name: 'Rick Sanchez', image: '', status: '', species: '' },
+    ]);
   });
 
   it('should fetch a character by ID', async () => {
@@ -59,8 +54,8 @@ describe('Character Service', () => {
       },
     });
 
-    const result = await getCharacterById('1');
-    expect(result).toEqual({
+    const character = await getCharacterById('1');
+    expect(character).toEqual({
       id: '1',
       name: 'Rick Sanchez',
       image: '',
@@ -69,9 +64,19 @@ describe('Character Service', () => {
     });
   });
 
+  it('should handle errors in fetching characters', async () => {
+    mockedAxios.post.mockRejectedValueOnce(new Error('Network Error'));
+
+    await expect(getCharacters(1, 20, '')).rejects.toThrow(
+      'Failed to fetch characters from RickAndMorty API'
+    );
+  });
+
   it('should handle errors in fetching a character by ID', async () => {
     mockedAxios.post.mockRejectedValueOnce(new Error('Network Error'));
 
-    await expect(getCharacterById('1')).rejects.toThrow('Network Error');
+    await expect(getCharacterById('1')).rejects.toThrow(
+      'Failed to fetch character from RickAndMorty API'
+    );
   });
 });

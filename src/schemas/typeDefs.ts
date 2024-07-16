@@ -9,8 +9,12 @@ export const typeDefs = gql`
     species: String
   }
 
+  type CharactersResponse {
+    results: [Character!]!
+  }
+
   type Query {
-    characters(page: Int, pageSize: Int): [Character]
+    characters(page: Int, pageSize: Int, sort: String): CharactersResponse
     character(id: ID!): Character
   }
 `;
