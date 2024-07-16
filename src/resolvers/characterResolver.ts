@@ -5,11 +5,21 @@ const resolvers: IResolvers = {
   Query: {
     characters: async (
       _: void,
-      args: { page: number; pageSize: number; sort: string }
+      args: {
+        page: number;
+        sort: string;
+        species: string;
+        status: string;
+      }
     ) => {
-      const { page = 1, pageSize = 20, sort = '' } = args;
+      const {
+        page = 1,
+        sort = '',
+        species = '',
+        status = '',
+      } = args;
       try {
-        return await getCharacters(page, pageSize, sort);
+        return await getCharacters(page, sort, species, status);
       } catch (error) {
         throw new Error(`Failed to fetch characters: ${error}`);
       }

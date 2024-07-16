@@ -16,30 +16,31 @@ interface CharactersResponse {
 }
 
 export const getCharacters = async (
-  page: number,
-  pageSize: number,
-  sort: string
+  page: number = 1,
+  sort: string = '',
+  species: string = '',
+  status: string = ''
 ) => {
   try {
+    const query = `
+            query ($page: Int, $species: String, $status: String) {
+              characters(page: $page, filter: { species: $species, status: $status }) {
+                results {
+                  id
+                  name
+                  image
+                  status
+                  species
+                }
+              }
+            }
+          `;
     const response = await axios.post(RICK_AND_MORTY_API_URL, {
-      query: `
-       query($page: Int!) {
-        characters(page: $page) {
-          results {
-            id
-            name
-            image
-            status
-            species
-          }
-        }
-      }
-      `,
-      variables: { page, pageSize },
+      query,
+      variables: { page, species, status },
     });
 
     const characters: CharactersResponse = response.data.data.characters;
-
     if (sort === 'name') {
       characters.results.sort((a: Character, b: Character) =>
         a.name.localeCompare(b.name)
@@ -57,8 +58,7 @@ export const getCharacters = async (
 
 export const getCharacterById = async (id: string): Promise<Character> => {
   try {
-    const response = await axios.post(RICK_AND_MORTY_API_URL, {
-      query: `
+    const query = `
         query ($id: ID!) {
           character(id: $id) {
             id
@@ -68,7 +68,9 @@ export const getCharacterById = async (id: string): Promise<Character> => {
             species
           }
         }
-      `,
+      `;
+    const response = await axios.post(RICK_AND_MORTY_API_URL, {
+      query,
       variables: { id },
     });
 

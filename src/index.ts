@@ -1,7 +1,7 @@
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { typeDefs } from './schemas/typeDefs';
-import { resolvers } from './resolvers/characterResolver';
+import resolvers from './resolvers/characterResolver';
 import characterRoutes from './routes/characterRoutes';
 
 const startServer = async () => {

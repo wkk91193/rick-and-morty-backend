@@ -9,74 +9,99 @@ import axios from 'axios';
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-describe('Character Service', () => {
+describe('CharacterService', () => {
   afterEach(() => {
     jest.resetAllMocks();
   });
-
-  it('should fetch characters', async () => {
-    mockedAxios.post.mockResolvedValueOnce({
-      data: {
-        data: {
-          characters: {
-            results: [
-              {
-                id: '1',
-                name: 'Rick Sanchez',
-                image: '',
-                status: '',
-                species: '',
-              },
-            ],
-          },
-        },
-      },
-    });
-
-    const characters = await getCharacters(1, 20, '');
-    expect(characters.results).toEqual([
-      { id: '1', name: 'Rick Sanchez', image: '', status: '', species: '' },
-    ]);
-  });
-
-  it('should fetch a character by ID', async () => {
-    mockedAxios.post.mockResolvedValueOnce({
-      data: {
-        data: {
-          character: {
+  describe('getCharacters', () => {
+    it('should fetch characters with default parameters', async () => {
+      const charactersData = {
+        results: [
+          {
             id: '1',
             name: 'Rick Sanchez',
-            image: '',
-            status: '',
-            species: '',
+            image: 'image1',
+            status: 'Alive',
+            species: 'Human',
           },
-        },
-      },
+          {
+            id: '2',
+            name: 'Morty Smith',
+            image: 'image2',
+            status: 'Alive',
+            species: 'Human',
+          },
+        ],
+      };
+
+      mockedAxios.post.mockResolvedValue({
+        data: { data: { characters: charactersData } },
+      });
+
+      const data = await getCharacters();
+      expect(data).toEqual(charactersData);
     });
 
-    const character = await getCharacterById('1');
-    expect(character).toEqual({
-      id: '1',
-      name: 'Rick Sanchez',
-      image: '',
-      status: '',
-      species: '',
+    it('should fetch characters with sorting by name', async () => {
+      const charactersData = {
+        results: [
+          {
+            id: '1',
+            name: 'Rick Sanchez',
+            image: 'image1',
+            status: 'Alive',
+            species: 'Human',
+          },
+          {
+            id: '2',
+            name: 'Morty Smith',
+            image: 'image2',
+            status: 'Alive',
+            species: 'Human',
+          },
+        ],
+      };
+
+      mockedAxios.post.mockResolvedValue({
+        data: { data: { characters: charactersData } },
+      });
+
+      const data = await getCharacters(1, 'name');
+      expect(data.results[0].name).toBe('Morty Smith');
+      expect(data.results[1].name).toBe('Rick Sanchez');
+    });
+    it('should handle errors in fetching characters', async () => {
+      mockedAxios.post.mockRejectedValueOnce(new Error('Network Error'));
+
+      await expect(getCharacters(1, '', '', '')).rejects.toThrow(
+        'Failed to fetch characters from RickAndMorty API'
+      );
     });
   });
 
-  it('should handle errors in fetching characters', async () => {
-    mockedAxios.post.mockRejectedValueOnce(new Error('Network Error'));
+  describe('getCharacterById', () => {
+    it('should fetch character by ID', async () => {
+      const characterData = {
+        id: '1',
+        name: 'Rick Sanchez',
+        image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
+        status: 'Alive',
+        species: 'Human',
+      };
 
-    await expect(getCharacters(1, 20, '')).rejects.toThrow(
-      'Failed to fetch characters from RickAndMorty API'
-    );
-  });
+      mockedAxios.post.mockResolvedValue({
+        data: { data: { character: characterData } },
+      });
 
-  it('should handle errors in fetching a character by ID', async () => {
-    mockedAxios.post.mockRejectedValueOnce(new Error('Network Error'));
+      const data = await getCharacterById('1');
+      expect(data).toEqual(characterData);
+    });
+    it('should handle errors in fetching a character by ID', async () => {
+      mockedAxios.post.mockRejectedValueOnce(new Error('Network Error'));
 
-    await expect(getCharacterById('1')).rejects.toThrow(
-      'Failed to fetch character from RickAndMorty API'
-    );
+      await expect(getCharacterById('1')).rejects.toThrow(
+        'Failed to fetch character from RickAndMorty API'
+      );
+    });
   });
 });

@@ -6,10 +6,16 @@ import { getCharacters, getCharacterById } from '../services/characterService';
 export const getCharactersController = async (req: Request, res: Response) => {
   try {
     const page = parseInt(req.query.page as string, 10) || 1;
-    const pageSize = parseInt(req.query.pageSize as string, 10) || 20;
     const sort = (req.query.sort as string) || '';
+    const species = (req.query.species as string) || '';
+    const status = (req.query.status as string) || '';
 
-    const characters = await getCharacters(page, pageSize, sort);
+    const characters = await getCharacters(
+      page,
+      sort,
+      species,
+      status
+    );
     res.status(200).json(characters);
   } catch (error) {
     console.error('Error fetching characters:', error);
