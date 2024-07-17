@@ -8,7 +8,7 @@ import logger from '../logger';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger.json';
 
-const startServer = async () => {
+export const startServer = async () => {
   const port = process.env.PORT;
   const app = express();
   app.use(express.json());
