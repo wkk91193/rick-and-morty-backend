@@ -37,6 +37,6 @@ const startServer = async () => {
   );
 };
 
-startServer().catch((error) => {
+startServer().catch(error => {
   logger.error(`Error starting server:${error}`);
 });

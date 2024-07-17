@@ -89,7 +89,7 @@ describe('CharacterService', () => {
       mockedAxios.post.mockRejectedValueOnce(new Error('Network Error'));
 
       await expect(getCharactersData(1)).rejects.toThrow(
-        'Failed to fetch characters from RickAndMorty API'
+        'Failed to fetch characters from RickAndMorty API',
       );
     });
   });
@@ -115,7 +115,7 @@ describe('CharacterService', () => {
       mockedAxios.post.mockRejectedValueOnce(new Error('Network Error'));
 
       await expect(getCharacterDataById('1')).rejects.toThrow(
-        'Failed to fetch character from RickAndMorty API'
+        'Failed to fetch character from RickAndMorty API',
       );
     });
   });
