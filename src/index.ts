@@ -4,7 +4,9 @@ import { typeDefs } from './schemas/typeDefs';
 import resolvers from './resolvers/characterResolver';
 import characterRoutes from './routes/characterRoutes';
 import logger from '../logger';
-import setupSwaggerDocs from '../swaggerConfig';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '../swagger.json';
+
 
 const startServer = async () => {
   const port = 3000;
@@ -23,7 +25,7 @@ const startServer = async () => {
 
   // REST endpoints
   app.use('/api', characterRoutes);
-  setupSwaggerDocs(app, port);
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   app.use((err: any, req: any, res: any) => {
     logger.error(`Unhandled error: ${err.message}`);
@@ -31,7 +33,7 @@ const startServer = async () => {
   });
 
   app.listen({ port }, () =>
-    logger.info(`Server ready at http://localhost:4000${server.graphqlPath}`)
+    logger.info(`Server ready at http://localhost:3000${server.graphqlPath}`)
   );
 };
 

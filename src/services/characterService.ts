@@ -74,14 +74,26 @@ export const getCharacterDataById = async (id: string): Promise<Character> => {
   try {
     const query = `
         query ($id: ID!) {
-          character(id: $id) {
-            id
-            name
-            image
-            status
-            species
-          }
-        }
+           character(id: $id) {
+              id
+              name
+              image
+              status
+              species
+              origin {
+                name
+              }
+              location {
+                name
+              }
+              episode {
+                id
+                name
+                episode
+                air_date
+              }
+            }
+         }
       `;
     const response = await axios.post(RICK_AND_MORTY_API_URL, {
       query,
