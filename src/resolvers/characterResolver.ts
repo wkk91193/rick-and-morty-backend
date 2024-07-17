@@ -14,7 +14,7 @@ const resolvers: IResolvers = {
         sort: string;
         species: string;
         status: string;
-      }
+      },
     ) => {
       const { page = 1, sort = '', species = '', status = '' } = args;
       try {

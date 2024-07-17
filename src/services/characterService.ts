@@ -26,7 +26,7 @@ export const getCharactersData = async (
   page: number = 1,
   sort: string = '',
   species: string = '',
-  status: string = ''
+  status: string = '',
 ) => {
   try {
     const query = `
@@ -56,11 +56,11 @@ export const getCharactersData = async (
     const characters: CharactersResponse = response.data.data.characters;
     if (sort === 'name') {
       characters.results.sort((a: Character, b: Character) =>
-        a.name.localeCompare(b.name)
+        a.name.localeCompare(b.name),
       );
     } else if (sort === '-name') {
       characters.results.sort((a: Character, b: Character) =>
-        b.name.localeCompare(a.name)
+        b.name.localeCompare(a.name),
       );
     }
     return characters;

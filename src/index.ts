@@ -31,10 +31,10 @@ const startServer = async () => {
   });
 
   app.listen({ port }, () =>
-    logger.info(`Server ready at http://localhost:4000${server.graphqlPath}`)
+    logger.info(`Server ready at http://localhost:4000${server.graphqlPath}`),
   );
 };
 
-startServer().catch((error) => {
+startServer().catch(error => {
   logger.error(`Error starting server:${error}`);
 });
