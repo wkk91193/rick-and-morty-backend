@@ -11,6 +11,7 @@ This project is a Node.js application built with TypeScript, Express, and Apollo
 - Filtering characters by species and status (alive, dead, unknown)
 - Validation of incoming request parameters
 - Comprehensive logging for monitoring and debugging
+- API documentation
 
 ## Getting Started
 
