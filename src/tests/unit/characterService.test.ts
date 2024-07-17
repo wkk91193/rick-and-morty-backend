@@ -1,8 +1,8 @@
 // tests/unit/characterService.test.ts
 
 import {
-  getCharacters,
-  getCharacterById,
+  getCharactersData,
+  getCharacterDataById,
 } from '../../services/characterService';
 import axios from 'axios';
 
@@ -16,64 +16,79 @@ describe('CharacterService', () => {
   describe('getCharacters', () => {
     it('should fetch characters with default parameters', async () => {
       const charactersData = {
-        results: [
-          {
-            id: '1',
-            name: 'Rick Sanchez',
-            image: 'image1',
-            status: 'Alive',
-            species: 'Human',
+        characters: {
+          info: {
+            count: 826,
+            pages: 42,
+            next: 2,
+            prev: null,
           },
-          {
-            id: '2',
-            name: 'Morty Smith',
-            image: 'image2',
-            status: 'Alive',
-            species: 'Human',
-          },
-        ],
+          results: [
+            {
+              id: '1',
+              name: 'Rick Sanchez',
+              image: 'image1',
+              status: 'Alive',
+              species: 'Human',
+            },
+            {
+              id: '2',
+              name: 'Morty Smith',
+              image: 'image2',
+              status: 'Alive',
+              species: 'Human',
+            },
+          ],
+        },
       };
 
       mockedAxios.post.mockResolvedValue({
-        data: { data: { characters: charactersData } },
+        data: { data: charactersData },
       });
-
-      const data = await getCharacters();
-      expect(data).toEqual(charactersData);
+      const response = await getCharactersData();
+      expect(charactersData.characters).toEqual(response);
     });
 
     it('should fetch characters with sorting by name', async () => {
       const charactersData = {
-        results: [
-          {
-            id: '1',
-            name: 'Rick Sanchez',
-            image: 'image1',
-            status: 'Alive',
-            species: 'Human',
+        characters: {
+          info: {
+            count: 826,
+            pages: 42,
+            next: 2,
+            prev: null,
           },
-          {
-            id: '2',
-            name: 'Morty Smith',
-            image: 'image2',
-            status: 'Alive',
-            species: 'Human',
-          },
-        ],
+          results: [
+            {
+              id: '1',
+              name: 'Rick Sanchez',
+              image: 'image1',
+              status: 'Alive',
+              species: 'Human',
+            },
+            {
+              id: '2',
+              name: 'Morty Smith',
+              image: 'image2',
+              status: 'Alive',
+              species: 'Human',
+            },
+          ],
+        },
       };
 
       mockedAxios.post.mockResolvedValue({
-        data: { data: { characters: charactersData } },
+        data: { data: charactersData },
       });
 
-      const data = await getCharacters(1, 'name');
+      const data = await getCharactersData(1, 'name');
       expect(data.results[0].name).toBe('Morty Smith');
       expect(data.results[1].name).toBe('Rick Sanchez');
     });
     it('should handle errors in fetching characters', async () => {
       mockedAxios.post.mockRejectedValueOnce(new Error('Network Error'));
 
-      await expect(getCharacters(1, '', '', '')).rejects.toThrow(
+      await expect(getCharactersData(1)).rejects.toThrow(
         'Failed to fetch characters from RickAndMorty API'
       );
     });
@@ -93,13 +108,13 @@ describe('CharacterService', () => {
         data: { data: { character: characterData } },
       });
 
-      const data = await getCharacterById('1');
+      const data = await getCharacterDataById('1');
       expect(data).toEqual(characterData);
     });
     it('should handle errors in fetching a character by ID', async () => {
       mockedAxios.post.mockRejectedValueOnce(new Error('Network Error'));
 
-      await expect(getCharacterById('1')).rejects.toThrow(
+      await expect(getCharacterDataById('1')).rejects.toThrow(
         'Failed to fetch character from RickAndMorty API'
       );
     });

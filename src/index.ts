@@ -22,7 +22,7 @@ const startServer = async () => {
   // REST endpoints
   app.use('/api', characterRoutes);
 
-  app.use((err: any, req: any, res: any, next: any) => {
+  app.use((err: any, req: any, res: any) => {
     logger.error(`Unhandled error: ${err.message}`);
     res.status(500).json({ error: 'Internal Server Error' });
   });

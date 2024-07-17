@@ -14,9 +14,15 @@ interface Character {
 }
 interface CharactersResponse {
   results: Character[];
+  info: {
+    count: number;
+    pages: number;
+    next: number | null;
+    prev: number | null;
+  };
 }
 
-export const getCharacters = async (
+export const getCharactersData = async (
   page: number = 1,
   sort: string = '',
   species: string = '',
@@ -33,6 +39,12 @@ export const getCharacters = async (
                   status
                   species
                 }
+                info {
+                  count
+                  pages
+                  next
+                  prev
+                }  
               }
             }
           `;
@@ -58,7 +70,7 @@ export const getCharacters = async (
   }
 };
 
-export const getCharacterById = async (id: string): Promise<Character> => {
+export const getCharacterDataById = async (id: string): Promise<Character> => {
   try {
     const query = `
         query ($id: ID!) {

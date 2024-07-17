@@ -22,7 +22,7 @@ describe('Character Routes', () => {
 
   describe('GET /api/characters', () => {
     it('should list characters with default parameters', async () => {
-      const response = await request(app).get('/api/characters?page=1');
+      const response = await request(app).get('/api/characters');
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('results');
     });
@@ -53,7 +53,7 @@ describe('Character Routes', () => {
 
     it('should handle errors from the service layer', async () => {
       jest
-        .spyOn(require('../../services/characterService'), 'getCharacters')
+        .spyOn(require('../../services/characterService'), 'getCharactersData')
         .mockImplementation(() => {
           throw new Error('Service error');
         });
@@ -79,7 +79,10 @@ describe('Character Routes', () => {
 
     it('should handle errors from the service layer', async () => {
       jest
-        .spyOn(require('../../services/characterService'), 'getCharacterById')
+        .spyOn(
+          require('../../services/characterService'),
+          'getCharacterDataById'
+        )
         .mockImplementation(() => {
           throw new Error('Service error');
         });

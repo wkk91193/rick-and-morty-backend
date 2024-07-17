@@ -1,5 +1,8 @@
 import { IResolvers } from '@graphql-tools/utils';
-import { getCharacters, getCharacterById } from '../services/characterService';
+import {
+  getCharactersData,
+  getCharacterDataById,
+} from '../services/characterService';
 import logger from '../../logger';
 
 const resolvers: IResolvers = {
@@ -15,7 +18,7 @@ const resolvers: IResolvers = {
     ) => {
       const { page = 1, sort = '', species = '', status = '' } = args;
       try {
-        return await getCharacters(page, sort, species, status);
+        return await getCharactersData(page, sort, species, status);
       } catch (error) {
         logger.error(`Failed to fetch characters: ${error}`);
         throw new Error(`Failed to fetch characters: ${error}`);
@@ -23,7 +26,7 @@ const resolvers: IResolvers = {
     },
     character: async (_: void, args: { id: string }) => {
       try {
-        return await getCharacterById(args.id);
+        return await getCharacterDataById(args.id);
       } catch (error) {
         logger.error(`Failed to fetch character with ID ${args.id}: ${error}`);
         throw new Error(`Failed to fetch character: ${error}`);

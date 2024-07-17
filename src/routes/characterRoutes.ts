@@ -2,8 +2,8 @@
 
 import { Router } from 'express';
 import {
-  getCharactersController,
-  getCharacterByIdController,
+  getCharacters,
+  getCharacterById,
 } from '../controllers/characterController';
 import {
   validateGetCharacters,
@@ -12,11 +12,7 @@ import {
 
 const router = Router();
 
-router.get('/characters', validateGetCharacters, getCharactersController);
-router.get(
-  '/characters/:id',
-  validateGetCharacterById,
-  getCharacterByIdController
-);
+router.get('/characters', validateGetCharacters, getCharacters);
+router.get('/characters/:id', validateGetCharacterById, getCharacterById);
 
 export default router;
