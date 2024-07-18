@@ -8,6 +8,7 @@ import logger from '../logger';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger.json';
 import path from 'path';
+const serverless = require('serverless-http');
 
 const PORT = process.env.PORT || 4001;
 const HOST = process.env.HOST || '0.0.0.0';
@@ -18,7 +19,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '../')));
 
 // REST endpoints
-app.use('/api', characterRoutes);
+app.use('./netlify/functions/api', characterRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // GraphQL endpoint
@@ -34,3 +35,5 @@ server
   .catch((error) => {
     logger.error(`Failed to start the server: ${error.message}`);
   });
+
+module.exports.handler = serverless(app);

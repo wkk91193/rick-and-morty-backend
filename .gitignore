@@ -72,3 +72,6 @@ Thumbs.db
 # Jest
 jest/
 .vercel
+
+# Local Netlify folder
+.netlify
