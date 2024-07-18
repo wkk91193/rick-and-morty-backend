@@ -9,6 +9,7 @@ import {
 
 const RICK_AND_MORTY_API_URL =
   process.env.RICK_AND_MORTY_API_URL || 'https://rickandmortyapi.com/graphql';
+
 export const getCharactersData = async (
   page: number = 1,
   sort: string = '',
