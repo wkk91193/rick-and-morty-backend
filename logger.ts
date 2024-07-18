@@ -12,7 +12,7 @@ const papertrail = new winston.transports.Syslog({
 
 const logger = winston.createLogger({
   format: winston.format.simple(),
-  levels: winston.config.syslog.levels,
+  level: process.env.LOG_LEVEL || 'info',
   transports: [papertrail],
 });
 

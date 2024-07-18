@@ -29,7 +29,7 @@ describe('Character Routes', () => {
 
     it('should list characters with sorting by name', async () => {
       const response = await request(app).get(
-        '/api/characters?page=1&sort=name',
+        '/api/characters?page=1&sort=name'
       );
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('results');
@@ -38,7 +38,7 @@ describe('Character Routes', () => {
 
     it('should list characters with species and status filters', async () => {
       const response = await request(app).get(
-        '/api/characters?page=1&species=Human&status=Alive',
+        '/api/characters?page=1&species=Human&status=Alive'
       );
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('results');
@@ -47,7 +47,8 @@ describe('Character Routes', () => {
 
     it('should handle invalid query parameters', async () => {
       const response = await request(app).get('/api/characters?page=abc');
-      expect(response.status).toBe(500);
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('errors');
     });
 
     it('should handle errors from the service layer', async () => {
@@ -72,14 +73,15 @@ describe('Character Routes', () => {
 
     it('should handle invalid character ID', async () => {
       const response = await request(app).get('/api/characters/invalid-id');
-      expect(response.status).toBe(500);
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('errors');
     });
 
     it('should handle errors from the service layer', async () => {
       jest
         .spyOn(
           require('../../services/characterService'),
-          'getCharacterDataById',
+          'getCharacterDataById'
         )
         .mockImplementation(() => {
           throw new Error('Service error');
