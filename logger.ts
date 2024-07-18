@@ -1,22 +1,20 @@
-import { createLogger, format, transports } from 'winston';
-import 'winston-daily-rotate-file';
+const os = require('os');
+const winston = require('winston');
+require('winston-syslog');
 
-const { combine, timestamp, printf } = format;
-
-const logFormat = printf(({ level, message, timestamp }) => {
-  return `${timestamp} [${level}]: ${message}`;
+const papertrail = new winston.transports.Syslog({
+  host: 'logs4.papertrailapp.com',
+  port: 45413,
+  protocol: 'tls4',
+  localhost: os.hostname(),
+  eol: '\n',
 });
 
-const logger = createLogger({
-  format: combine(timestamp(), logFormat),
-  transports: [
-    new transports.Console(),
-    new transports.DailyRotateFile({
-      filename: 'logs/application-%DATE%.log',
-      datePattern: 'YYYY-MM-DD',
-      maxFiles: '14d',
-    }),
-  ],
+const logger = winston.createLogger({
+  format: winston.format.simple(),
+  levels: winston.config.syslog.levels,
+  transports: [papertrail],
 });
+
 
 export default logger;

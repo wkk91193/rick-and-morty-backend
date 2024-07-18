@@ -7,36 +7,30 @@ import characterRoutes from './routes/characterRoutes';
 import logger from '../logger';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger.json';
+import path from 'path';
 
-export const startServer = async () => {
-  const port = process.env.PORT;
-  const app = express();
-  app.use(express.json());
+const PORT = process.env.PORT || 4001;
+const HOST = process.env.HOST || '0.0.0.0';
 
-  app.use((req, res, next) => {
-    logger.info(`Incoming request: ${req.method} ${req.url}`);
-    next();
+export const app = express();
+app.use(express.json());
+// Serve static files
+app.use(express.static(path.join(__dirname, '../')));
+
+// REST endpoints
+app.use('/api', characterRoutes);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// GraphQL endpoint
+const server = new ApolloServer({ typeDefs, resolvers });
+server
+  .start()
+  .then(() => {
+    server.applyMiddleware({ app });
+    app.listen({ port: PORT, host: HOST }, () =>
+      logger.info(`Server ready at ${HOST}:${PORT}${server.graphqlPath}`)
+    );
+  })
+  .catch((error) => {
+    logger.error(`Failed to start the server: ${error.message}`);
   });
-
-  // GraphQL endpoint
-  const server = new ApolloServer({ typeDefs, resolvers });
-  await server.start();
-  server.applyMiddleware({ app });
-
-  // REST endpoints
-  app.use('/api', characterRoutes);
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-  app.use((err: any, req: any, res: any) => {
-    logger.error(`Unhandled error: ${err.message}`);
-    res.status(500).json({ error: 'Internal Server Error' });
-  });
-
-  app.listen({ port }, () =>
-    logger.info(`Server ready at http://localhost:${port}${server.graphqlPath}`)
-  );
-};
-
-startServer().catch((error) => {
-  logger.error(`Error starting server:${error}`);
-});
