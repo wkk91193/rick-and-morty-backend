@@ -13,6 +13,9 @@ This project is a Node.js application built with TypeScript, Express, and Apollo
 - Comprehensive logging for monitoring and debugging
 - API documentation
 
+## API documentation
+http://ec2-54-206-217-198.ap-southeast-2.compute.amazonaws.com:4001/api-docs/
+
 ## Getting Started
 
 ### Prerequisites
