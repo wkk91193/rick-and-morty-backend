@@ -58,7 +58,9 @@ export const getCharactersData = async (
   }
 };
 
-export const getCharacterDataById = async (id: string): Promise<Character> => {
+export const getCharacterDataById = async (
+  id: string
+): Promise<CharacterDetail> => {
   try {
     const query = `
         query ($id: ID!) {
