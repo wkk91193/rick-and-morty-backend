@@ -14,7 +14,8 @@ This project is a Node.js application built with TypeScript, Express, and Apollo
 - API documentation
 
 ## API documentation
-http://ec2-54-206-217-198.ap-southeast-2.compute.amazonaws.com:4001/api-docs/
+
+<hostname>:<port>/api-docs/
 
 ## Getting Started
 
