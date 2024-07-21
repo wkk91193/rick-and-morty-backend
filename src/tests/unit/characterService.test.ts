@@ -92,7 +92,7 @@ describe('CharacterService', () => {
       mock.onPost().reply(500);
 
       await expect(getCharactersData(1)).rejects.toThrow(
-        'Failed to fetch characters from RickAndMorty API'
+        'Failed to fetch characters from RickAndMorty API',
       );
     });
   });
@@ -134,7 +134,7 @@ describe('CharacterService', () => {
     it('should handle errors in fetching a character by ID', async () => {
       mock.onPost().reply(500);
       await expect(getCharacterDataById('1')).rejects.toThrow(
-        'Failed to fetch character from RickAndMorty API'
+        'Failed to fetch character from RickAndMorty API',
       );
     });
   });

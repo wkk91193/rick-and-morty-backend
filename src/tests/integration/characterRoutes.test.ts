@@ -29,7 +29,7 @@ describe('Character Routes', () => {
 
     it('should list characters with sorting by name', async () => {
       const response = await request(app).get(
-        '/api/characters?page=1&sort=name'
+        '/api/characters?page=1&sort=name',
       );
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('results');
@@ -38,7 +38,7 @@ describe('Character Routes', () => {
 
     it('should list characters with species and status filters', async () => {
       const response = await request(app).get(
-        '/api/characters?page=1&species=Human&status=Alive'
+        '/api/characters?page=1&species=Human&status=Alive',
       );
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('results');
@@ -81,7 +81,7 @@ describe('Character Routes', () => {
       jest
         .spyOn(
           require('../../services/characterService'),
-          'getCharacterDataById'
+          'getCharacterDataById',
         )
         .mockImplementation(() => {
           throw new Error('Service error');

@@ -25,9 +25,9 @@ server
   .then(() => {
     server.applyMiddleware({ app });
     app.listen({ port: PORT, host: HOST }, () =>
-      logger.info(`Server ready at ${HOST}:${PORT}${server.graphqlPath}`)
+      logger.info(`Server ready at ${HOST}:${PORT}${server.graphqlPath}`),
     );
   })
-  .catch((error) => {
+  .catch(error => {
     logger.error(`Failed to start the server: ${error.message}`);
   });

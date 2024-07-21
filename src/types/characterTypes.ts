@@ -15,19 +15,19 @@ export interface CharactersResponse {
   };
 }
 interface Location {
-  name : string;
+  name: string;
 }
 interface Origin {
-  name : string 
+  name: string;
 }
 interface Episode {
-  id : string;
-  name : string;
-  episode : string;
-  air_date : string;
+  id: string;
+  name: string;
+  episode: string;
+  air_date: string;
 }
 export interface CharacterDetail extends Character {
-  origin : Origin;
+  origin: Origin;
   location: Location;
-  episode : Episode;
+  episode: Episode;
 }

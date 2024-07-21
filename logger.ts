@@ -1,10 +1,12 @@
-const os = require('os');
-const winston = require('winston');
-require('winston-syslog');
+import os from 'os';
+import winston from 'winston';
+import { Syslog } from 'winston-syslog';
 
-const papertrail = new winston.transports.Syslog({
+const papertrail = new Syslog({
   host: process.env.PAPERTRAIL_HOST,
-  port: process.env.PAPERTRAIL_PORT,
+  port: process.env.PAPERTRAIL_PORT
+    ? parseInt(process.env.PAPERTRAIL_PORT)
+    : undefined,
   protocol: process.env.PAPERTRAIL_PROTOCOL,
   localhost: os.hostname(),
   eol: '\n',

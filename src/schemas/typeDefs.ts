@@ -6,13 +6,13 @@ export const typeDefs = gql`
     name: String!
     image: String!
     status: String!
-    species: String!  
+    species: String!
   }
   type Info {
     count: Int
     pages: Int
     next: Int
-    prev: Int 
+    prev: Int
   }
 
   type CharactersResponse {
@@ -21,11 +21,11 @@ export const typeDefs = gql`
   }
 
   type CharacterDetail {
-    id : ID!
+    id: ID!
     name: String!
     image: String!
     status: String!
-    species: String! 
+    species: String!
     origin: Origin!
     location: Location!
     episode: Episode!
@@ -39,7 +39,7 @@ export const typeDefs = gql`
     name: String!
   }
   type Episode {
-    id: String!  
+    id: String!
     name: String!
     episode: String!
     air_date: String!
