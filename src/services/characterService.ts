@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import axios from 'axios';
 import logger from '../../logger';
 
@@ -7,8 +8,7 @@ import {
   CharactersResponse,
 } from '../types/characterTypes';
 
-const RICK_AND_MORTY_API_URL =
-  process.env.RICK_AND_MORTY_API_URL || 'https://rickandmortyapi.com/graphql';
+const RICK_AND_MORTY_API_URL = process.env.RICK_AND_MORTY_API_URL;
 
 export const getCharactersData = async (
   page: number = 1,
@@ -36,7 +36,7 @@ export const getCharactersData = async (
               }
             }
           `;
-    const response = await axios.post(RICK_AND_MORTY_API_URL, {
+    const response = await axios.post(RICK_AND_MORTY_API_URL!, {
       query,
       variables: { page, species, status },
     });
@@ -85,7 +85,7 @@ export const getCharacterDataById = async (
             }
          }
       `;
-    const response = await axios.post(RICK_AND_MORTY_API_URL, {
+    const response = await axios.post(RICK_AND_MORTY_API_URL!, {
       query,
       variables: { id },
     });

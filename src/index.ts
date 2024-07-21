@@ -6,17 +6,17 @@ import resolvers from './resolvers/characterResolver';
 import characterRoutes from './routes/characterRoutes';
 import logger from '../logger';
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from '../swagger.json';
+import { swaggerConfig } from '../swaggerConfig';
 
-const PORT = process.env.PORT || 4001;
-const HOST = process.env.HOST || '0.0.0.0';
+const PORT = process.env.PORT;
+const HOST = process.env.HOST;
 
 const app = express();
 app.use(express.json());
 
 // REST endpoints
 app.use('/api', characterRoutes);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerConfig));
 
 // GraphQL endpoint
 const server = new ApolloServer({ typeDefs, resolvers });

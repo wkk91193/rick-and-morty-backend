@@ -1,11 +1,11 @@
-{
+const swaggerJson = `{
   "swagger": "2.0",
   "info": {
     "title": "Rick and Morty API",
     "version": "1.0.0",
     "description": "API documentation for the Rick and Morty characters service"
   },
-  "host": "localhost:3000",
+  "host": "${process.env.HOST}:${process.env.PORT}",
   "basePath": "/",
   "schemes": ["http"],
   "paths": {
@@ -145,4 +145,6 @@
       }
     }
   }
-}
+}`;
+
+export const swaggerConfig = JSON.parse(swaggerJson);
