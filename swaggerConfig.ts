@@ -5,7 +5,7 @@ const swaggerJson = `{
     "version": "1.0.0",
     "description": "API documentation for the Rick and Morty characters service"
   },
-  "host": "${process.env.HOST}:${process.env.PORT}",
+  "host": "${process.env.SWAGGER_URL}",
   "basePath": "/",
   "schemes": ["http"],
   "paths": {
