@@ -7,7 +7,7 @@ const swaggerJson = `{
   },
   "host": "${process.env.SWAGGER_URL}",
   "basePath": "/",
-  "schemes": ["http, https"],
+  "schemes": ["http","https"],
   "paths": {
     "/api/characters": {
       "get": {
