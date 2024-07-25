@@ -15,7 +15,7 @@ This project is a Node.js application built with TypeScript, Express, and Apollo
 
 ## API documentation
 
-hostname:port/api-docs/
+https://rick-and-morty-backend-gewg.onrender.com/api-docs
 
 ## Getting Started
 
